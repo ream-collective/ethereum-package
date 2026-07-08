@@ -380,7 +380,7 @@ participants:
     # Defaults by client:
     # - lighthouse: ethpandaops/lighthouse:unstable
     # - teku: ethpandaops/teku:master
-    # - nimbus: statusim/nimbus-eth2:multiarch-latest
+    # - nimbus: ethpandaops/nimbus-eth2:unstable
     # - prysm: ethpandaops/prysm-beacon-chain:develop
     # - lodestar: chainsafe/lodestar:latest
     # - grandine: sifrai/grandine:stable
@@ -485,7 +485,7 @@ participants:
     # Defaults by client:
     # - lighthouse: sigp/lighthouse:latest
     # - lodestar: chainsafe/lodestar:latest
-    # - nimbus: statusim/nimbus-validator-client:multiarch-latest
+    # - nimbus: ethpandaops/nimbus-validator-client:unstable
     # - prysm: ethpandaops/prysm-validator:develop
     # - teku: ethpandaops/teku:master
     # - vero: ghcr.io/serenita-org/vero:latest
@@ -760,8 +760,8 @@ network_params:
   contribution_due_bps_gloas: 5000
 
   # Payload availability deadline for Gloas fork
-  # Defaults to 7500 basis points (75% of slot duration)
-  payload_due_bps: 7500
+  # Defaults to 5000 basis points (50% of slot duration)
+  payload_due_bps: 5000
 
   # Payload attestation due timing for Gloas fork
   # Defaults to 7500 basis points (75% of slot duration)
@@ -867,8 +867,13 @@ network_params:
   min_validator_withdrawability_delay: 256
 
   # The minimum number of epochs for builder withdrawability delay
-  # Defaults to 8192, 2 for minimal preset
-  min_builder_withdrawability_delay: 8192
+  # Defaults to 64, 2 for minimal preset
+  min_builder_withdrawability_delay: 64
+
+  # Whether to include the EIP-8282 builder deposit/exit predeploys in genesis
+  # when Gloas is scheduled (requires ethereum-genesis-generator >= 6.1.3)
+  # Defaults to true
+  deploy_eip8282_contracts: true
 
   # The period of the shard committee
   # Defaults to 256 epoch ~27 hours
@@ -1047,7 +1052,7 @@ network_params:
   # Default to 4096
   min_epochs_for_data_column_sidecars_requests: 4096
 
-  # Number of ePBS builders to register at genesis with 0x03 withdrawal credentials
+  # Number of ePBS builders to register at genesis with 0xB0 withdrawal credentials
   # Requires gloas_fork_epoch to be 0 (GLOAS at genesis)
   # Default to 0
   builder_count: 0
@@ -1200,7 +1205,13 @@ prometheus_params:
 
 # Configuration place for grafana
 grafana_params:
-  # A list of locators for grafana dashboards to be loaded be the grafana service
+  # A list of locators for grafana dashboards to be loaded by the grafana service.
+  # Each entry must be a Kurtosis locator: a GitHub locator (e.g.
+  # "github.com/<org>/<repo>/path/to/dashboards") or an absolute http(s) URL.
+  # When inheriting this package from your own, a local/relative path will NOT
+  # work: upload_files runs inside the ethereum-package and resolves relative
+  # paths against it, not against your package. Use a github.com/... locator
+  # pointing at your own repo instead.
   additional_dashboards: []
   # Resource management for grafana container
   # CPU is milicores
@@ -1795,7 +1806,7 @@ slashoor_params:
 # Ethereum genesis generator params
 ethereum_genesis_generator_params:
   # The image to use for ethereum genesis generator
-  image: ethpandaops/ethereum-genesis-generator:6.1.2
+  image: ethpandaops/ethereum-genesis-generator:6.1.3
   # Pass custom environment variables to the genesis generator (e.g. MY_VAR: my_value)
   extra_env: {}
 

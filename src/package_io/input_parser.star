@@ -20,7 +20,7 @@ DEFAULT_EL_IMAGES = {
 DEFAULT_CL_IMAGES = {
     "lighthouse": "sigp/lighthouse:latest",
     "teku": "consensys/teku:latest",
-    "nimbus": "statusim/nimbus-eth2:multiarch-latest",
+    "nimbus": "ethpandaops/nimbus-eth2:unstable",
     "prysm": "offchainlabs/prysm-beacon-chain:stable",
     "lodestar": "chainsafe/lodestar:latest",
     "grandine": "sifrai/grandine:stable",
@@ -42,7 +42,7 @@ DEFAULT_CL_IMAGES_MINIMAL = {
 DEFAULT_VC_IMAGES = {
     "lighthouse": "sigp/lighthouse:latest",
     "lodestar": "chainsafe/lodestar:latest",
-    "nimbus": "statusim/nimbus-validator-client:multiarch-latest",
+    "nimbus": "ethpandaops/nimbus-validator-client:unstable",
     "prysm": "offchainlabs/prysm-validator:stable",
     "teku": "consensys/teku:latest",
     "grandine": "sifrai/grandine:stable",
@@ -905,6 +905,9 @@ def input_parser(plan, input_args):
             ],
             min_builder_withdrawability_delay=result["network_params"][
                 "min_builder_withdrawability_delay"
+            ],
+            deploy_eip8282_contracts=result["network_params"][
+                "deploy_eip8282_contracts"
             ],
             shard_committee_period=result["network_params"]["shard_committee_period"],
             attestation_due_bps_gloas=result["network_params"][
@@ -1779,7 +1782,7 @@ def parse_network_params(plan, input_args):
             ],
             "start": actual_num_validators,
             "count": result["network_params"]["builder_count"],
-            "wd_prefix": "0x03",
+            "wd_prefix": "0xB0",
             "wd_address": result["network_params"]["withdrawal_address"],
         }
         if result["network_params"]["builder_balance"] > 0:
@@ -1893,13 +1896,14 @@ def default_network_params():
         "ejection_balance": 16000000000,
         "eth1_follow_distance": 2048,
         "min_validator_withdrawability_delay": 256,
-        "min_builder_withdrawability_delay": 8192,
+        "min_builder_withdrawability_delay": 64,
+        "deploy_eip8282_contracts": True,
         "shard_committee_period": 256,
         "attestation_due_bps_gloas": 2500,
         "aggregate_due_bps_gloas": 5000,
         "sync_message_due_bps_gloas": 2500,
         "contribution_due_bps_gloas": 5000,
-        "payload_due_bps": 7500,
+        "payload_due_bps": 5000,
         "payload_attestation_due_bps": 7500,
         "view_freeze_cutoff_bps": 7500,
         "inclusion_list_submission_due_bps": 6667,
@@ -1979,12 +1983,13 @@ def default_minimal_network_params():
         "eth1_follow_distance": 16,
         "min_validator_withdrawability_delay": 256,
         "min_builder_withdrawability_delay": 2,
+        "deploy_eip8282_contracts": True,
         "shard_committee_period": 64,
         "attestation_due_bps_gloas": 2500,
         "aggregate_due_bps_gloas": 5000,
         "sync_message_due_bps_gloas": 2500,
         "contribution_due_bps_gloas": 5000,
-        "payload_due_bps": 7500,
+        "payload_due_bps": 5000,
         "payload_attestation_due_bps": 7500,
         "view_freeze_cutoff_bps": 7500,
         "inclusion_list_submission_due_bps": 6667,
