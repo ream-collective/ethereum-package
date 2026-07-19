@@ -26,6 +26,7 @@ DEFAULT_CL_IMAGES = {
     "grandine": "sifrai/grandine:stable",
     "consensoor": "ethpandaops/consensoor:main",
     "caplin": "ethpandaops/caplin:main",
+    "ream": "ream-local:dev",
 }
 
 DEFAULT_CL_IMAGES_MINIMAL = {
@@ -37,6 +38,7 @@ DEFAULT_CL_IMAGES_MINIMAL = {
     "grandine": "ethpandaops/grandine:develop-minimal",
     "consensoor": "ethpandaops/consensoor:main",
     "caplin": "ethpandaops/caplin:main",
+    "ream": "ream-local:dev",
 }
 
 DEFAULT_VC_IMAGES = {
@@ -1613,7 +1615,7 @@ def parse_network_params(plan, input_args):
 
         if vc_type == "":
             # Caplin doesn't include a built-in VC, default to lighthouse
-            if cl_type == constants.CL_TYPE.caplin:
+            if cl_type in (constants.CL_TYPE.caplin, constants.CL_TYPE.ream):
                 vc_type = "lighthouse"
             else:
                 vc_type = cl_type

@@ -20,6 +20,7 @@ CL_TYPE = struct(
     grandine="grandine",
     consensoor="consensoor",
     caplin="caplin",
+    ream="ream"
 )
 
 VC_TYPE = struct(
@@ -31,6 +32,7 @@ VC_TYPE = struct(
     vero="vero",
     grandine="grandine",
     consensoor="consensoor",
+    ream="ream",
 )
 
 REMOTE_SIGNER_TYPE = struct(web3signer="web3signer")
@@ -337,6 +339,7 @@ CLIENT_LANGUAGES = {
     "prysm": "go",
     "lodestar": "typescript",
     "grandine": "rust",
+    "ream": "rust",
     # Validator Clients (VC) - inherit from CL clients
     "vero": "python",
     # Remote Signers
