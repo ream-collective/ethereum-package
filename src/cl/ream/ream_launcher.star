@@ -18,12 +18,13 @@ BEACON_METRICS_PATH = "/metrics"
 
 ENTRYPOINT_ARGS = ["sh", "-c"]
 
+# `ream --verbosity` takes a number from 1 (error) to 5 (trace), not a level name.
 VERBOSITY_LEVELS = {
-    constants.GLOBAL_LOG_LEVEL.error: "error",
-    constants.GLOBAL_LOG_LEVEL.warn: "warn",
-    constants.GLOBAL_LOG_LEVEL.info: "info",
-    constants.GLOBAL_LOG_LEVEL.debug: "debug",
-    constants.GLOBAL_LOG_LEVEL.trace: "trace",
+    constants.GLOBAL_LOG_LEVEL.error: "1",
+    constants.GLOBAL_LOG_LEVEL.warn: "2",
+    constants.GLOBAL_LOG_LEVEL.info: "3",
+    constants.GLOBAL_LOG_LEVEL.debug: "4",
+    constants.GLOBAL_LOG_LEVEL.trace: "5",
 }
 
 def launch(
@@ -168,6 +169,8 @@ def get_beacon_config(
 
     cmd = [
         REAM_ENTRYPOINT_COMMAND,
+        # --verbosity is a global argument, so it has to precede the subcommand.
+        "--verbosity={0}".format(log_level),
         "beacon_node",
         "--network="
         + constants.GENESIS_CONFIG_MOUNT_PATH_ON_CONTAINER
@@ -317,7 +320,7 @@ def get_cl_context(
             extract = {
                 "enr": ".data.enr",
                 "peer_id": ".data.peer_id",
-                "multiaddr": ".data.p2p_address[0]",
+                "multiaddr": ".data.p2p_addresses[0]",
             }
         )
         response = plan.request(
