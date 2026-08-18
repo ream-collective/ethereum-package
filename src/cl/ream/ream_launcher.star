@@ -320,7 +320,7 @@ def get_cl_context(
             extract = {
                 "enr": ".data.enr",
                 "peer_id": ".data.peer_id",
-                "multiaddr": ".data.p2p_address[0]",
+                "multiaddr": ".data.p2p_addresses[0]",
             }
         )
         response = plan.request(
